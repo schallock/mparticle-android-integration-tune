@@ -109,18 +109,15 @@ public class MATDeferredDplinkr {
                     }
                 }
                 if (dplinkr.googleAdvertisingId == null) {
-                    MPUtility.getGoogleAdIdInfo(context, new MPUtility.GoogleAdIdListener() {
-                        @Override
-                        public void onGoogleIdInfoRetrieved(String googleAdId, Boolean limitAdTrackingEnabled) {
-                            if (limitAdTrackingEnabled != null) {
-                                dplinkr.googleAdvertisingId = googleAdId;
-                                dplinkr.isLATEnabled = limitAdTrackingEnabled ? 1 : 0;
-                            }else {
-                                dplinkr.setAndroidId(Settings.Secure.getString(context.getContentResolver(),
-                                        Settings.Secure.ANDROID_ID));
-                            }
-                        }
-                    });
+                    MPUtility.AndroidAdIdInfo adIdInfo = MPUtility.getGoogleAdIdInfo(context);
+
+                    if (adIdInfo != null) {
+                        dplinkr.googleAdvertisingId = adIdInfo.id;
+                        dplinkr.isLATEnabled = adIdInfo.isLimitAdTrackingEnabled ? 1 : 0;
+                    }else {
+                        dplinkr.setAndroidId(Settings.Secure.getString(context.getContentResolver(),
+                                Settings.Secure.ANDROID_ID));
+                    }
                 }
                 // If no device identifiers collected, return
                 if (dplinkr.googleAdvertisingId == null && dplinkr.androidId == null) {
