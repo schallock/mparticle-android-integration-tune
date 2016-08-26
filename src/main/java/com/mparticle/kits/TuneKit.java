@@ -43,7 +43,7 @@ public class TuneKit extends KitIntegration implements MATDeeplinkListener {
             settingAdvertiserId = getSettings().get(SETTING_ADVERTISER_ID);
             settingConversionKey = getSettings().get(SETTING_CONVERSION_KEY);
             packageName = getSettings().get(SETTING_PACKAGE_NAME_OVERRIDE);
-            if (TextUtils.isEmpty(packageName)) {
+            if (KitUtils.isEmpty(packageName)) {
                 packageName = getContext().getPackageName();
             }
             deepLinker = MATDeferredDplinkr.initialize(settingAdvertiserId, settingConversionKey, packageName);

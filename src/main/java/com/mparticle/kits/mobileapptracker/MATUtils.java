@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.mparticle.kits.KitUtils;
 import com.mparticle.kits.TuneKit;
 
 import java.io.BufferedReader;
@@ -46,7 +47,7 @@ public class MATUtils {
      */
     public static void calculateUserAgent(Context context, TuneKit tuneKit) {
         String userAgent = System.getProperty("http.agent", "");
-        if (!TextUtils.isEmpty(userAgent)) {
+        if (!KitUtils.isEmpty(userAgent)) {
             tuneKit.setUserAgent(userAgent);
         } else {
             // If system doesn't have user agent,
