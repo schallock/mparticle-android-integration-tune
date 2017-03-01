@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.mparticle.MParticle;
 import com.mparticle.internal.ConfigManager;
+import com.mparticle.internal.Logger;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -62,12 +63,12 @@ public class MATUrlRequester {
                 }
             }
         } catch (Exception e) {
-            ConfigManager.log(MParticle.LogLevel.DEBUG, e, "Error while querying Tune web service for deep links.");
+            Logger.debug(e, "Error while querying Tune web service for deep links.");
         } finally {
             try {
                 is.close();
             } catch (Exception e) {
-                ConfigManager.log(MParticle.LogLevel.DEBUG, e, "Error while querying Tune web service for deep links.");
+                Logger.debug(e, "Error while querying Tune web service for deep links.");
             }
         }
     }
