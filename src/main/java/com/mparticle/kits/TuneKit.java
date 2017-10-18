@@ -1,12 +1,9 @@
 package com.mparticle.kits;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.mparticle.DeepLinkError;
-import com.mparticle.DeepLinkListener;
-import com.mparticle.DeepLinkResult;
+import com.mparticle.AttributionError;
+import com.mparticle.AttributionResult;
 import com.mparticle.kits.mobileapptracker.MATDeeplinkListener;
 import com.mparticle.kits.mobileapptracker.MATDeferredDplinkr;
 import com.mparticle.kits.mobileapptracker.MATUrlRequester;
@@ -21,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * does not actually wrap the full Tune SDK - only a small subset of classes required to query the Tune server
  * for deep links that match the given user.
  */
-public class TuneKit extends KitIntegration implements MATDeeplinkListener {
+public class TuneKit extends KitIntegration implements MATDeeplinkListener, KitIntegration.ApplicationStateListener {
 
     private static final String SETTING_ADVERTISER_ID = "advertiserId";
     private static final String SETTING_CONVERSION_KEY = "conversionKey";
@@ -48,6 +45,7 @@ public class TuneKit extends KitIntegration implements MATDeeplinkListener {
             }
             deepLinker = MATDeferredDplinkr.initialize(settingAdvertiserId, settingConversionKey, packageName);
             deepLinker.setListener(this);
+            checkForAttribution();
         }
         return null;
     }
@@ -61,13 +59,12 @@ public class TuneKit extends KitIntegration implements MATDeeplinkListener {
         if (deepLinker != null) {
             deepLinker.setUserAgent(userAgent);
             if (listenerWaiting.get()) {
-                checkForDeepLink();
+                checkForAttribution();
             }
         }
     }
 
-    @Override
-    public void checkForDeepLink() {
+    private void checkForAttribution() {
         if (deepLinker != null) {
             listenerWaiting.set(true);
             if (deepLinker.getUserAgent() == null) {
@@ -81,18 +78,28 @@ public class TuneKit extends KitIntegration implements MATDeeplinkListener {
     @Override
     public void didReceiveDeeplink(String deeplink) {
         listenerWaiting.set(false);
-        DeepLinkResult result = new DeepLinkResult()
+        AttributionResult result = new AttributionResult()
                 .setLink(deeplink)
                 .setServiceProviderId(getConfiguration().getKitId());
-        ((DeepLinkListener)getKitManager()).onResult(result);
+        getKitManager().onResult(result);
     }
 
     @Override
     public void didFailDeeplink(String error) {
         listenerWaiting.set(false);
-        DeepLinkError deepLinkError = new DeepLinkError()
+        AttributionError deepLinkError = new AttributionError()
                 .setMessage(error)
                 .setServiceProviderId(getConfiguration().getKitId());
-        ((DeepLinkListener)getKitManager()).onError(deepLinkError);
+        getKitManager().onError(deepLinkError);
+    }
+
+    @Override
+    public void onApplicationForeground() {
+        checkForAttribution();
+    }
+
+    @Override
+    public void onApplicationBackground() {
+
     }
 }
