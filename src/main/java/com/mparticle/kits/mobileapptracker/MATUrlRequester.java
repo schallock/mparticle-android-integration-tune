@@ -2,8 +2,6 @@ package com.mparticle.kits.mobileapptracker;
 
 import android.net.Uri;
 
-import com.mparticle.MParticle;
-import com.mparticle.internal.ConfigManager;
 import com.mparticle.internal.Logger;
 
 import java.io.InputStream;
