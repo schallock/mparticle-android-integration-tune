@@ -109,9 +109,9 @@ public class MATDeferredDplinkr {
                     }
                 }
                 if (dplinkr.googleAdvertisingId == null) {
-                    MPUtility.AndroidAdIdInfo adIdInfo = MPUtility.getGoogleAdIdInfo(context);
+                    MPUtility.AdIdInfo adIdInfo = MPUtility.getAdIdInfo(context);
 
-                    if (adIdInfo != null) {
+                    if (adIdInfo != null && adIdInfo.advertiser == MPUtility.AdIdInfo.Advertiser.GOOGLE) {
                         dplinkr.googleAdvertisingId = adIdInfo.id;
                         dplinkr.isLATEnabled = adIdInfo.isLimitAdTrackingEnabled ? 1 : 0;
                     }else {
