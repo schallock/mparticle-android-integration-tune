@@ -8,7 +8,7 @@ This repository contains the [Tune](https://www.tune.com) integration for the [m
 
     ```groovy
     dependencies {
-        compile 'com.mparticle:android-tune-kit:5+'
+        implementation 'com.mparticle:android-tune-kit:5+'
     }
     ```
 2. Follow the mParticle Android SDK [quick-start](https://github.com/mParticle/mparticle-android-sdk), then rebuild and launch your app, and verify that you see `"Tune detected"` in the output of `adb logcat`.
