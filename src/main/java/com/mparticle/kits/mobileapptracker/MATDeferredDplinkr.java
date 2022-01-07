@@ -4,6 +4,7 @@ import android.content.Context;
 import android.provider.Settings;
 
 import com.mparticle.internal.MPUtility;
+import com.mparticle.kits.KitUtils;
 
 public class MATDeferredDplinkr {
     private String advertiserId;
@@ -115,8 +116,7 @@ public class MATDeferredDplinkr {
                         dplinkr.googleAdvertisingId = adIdInfo.id;
                         dplinkr.isLATEnabled = adIdInfo.isLimitAdTrackingEnabled ? 1 : 0;
                     }else {
-                        dplinkr.setAndroidId(Settings.Secure.getString(context.getContentResolver(),
-                                Settings.Secure.ANDROID_ID));
+                        dplinkr.setAndroidId(KitUtils.getAndroidID(context));
                     }
                 }
                 // If no device identifiers collected, return
