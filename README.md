@@ -1,5 +1,13 @@
 ## Tune Kit Integration
 
+### The Tune Kit is no longer supported
+
+The Tune kit for the mParticle Android SDK has been deprecated and is no longer supported.
+
+-----
+
+**Deprecated**
+
 This repository contains the [Tune](https://www.tune.com) integration for the [mParticle Android SDK](https://github.com/mParticle/mparticle-android-sdk).
 
 ### Adding the integration
